@@ -1,0 +1,57 @@
+<html>
+<body>
+<table id="table"border="1">
+    <style>
+    table,
+    th,
+    td {
+        border: 1px solid black;
+        border-collapse: collapse;
+    }
+    table#t01 {
+        width:40%;
+        background-color:#deecdc;
+    }  
+    </style>
+    <table style="width:40%">
+        <caption>Student Mark List</caption>
+    <tr>
+      <th>Student ID</th>
+      <th>Student Name</th>
+      <th>Value</th>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>Lalitha</td>
+      <td>60</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>Sasi</td>
+      <td>100</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>Rahul</td>
+    <td>40</td>
+  </tr>
+</table>
+<span id="val"></span>
+
+<script>
+    vartable=document.getElementById("table"),sumVal=0;
+    for(vari=1; i<table.rows.length;i++)
+    {
+        sumVal=sumVal+parseInt(table.rows[i].cells[2].innerHTML);
+    }
+    document.getElementById("Val").innerHTML="sumVal ="+sumVal;
+    console.log(sumVal);
+    </script>
+</body>
+<tfoot>
+    <tr>
+      <th id="total" colspan="3">Total :</th>
+      <td>200</td>
+    </tr>
+   </tfoot>
+</html>
