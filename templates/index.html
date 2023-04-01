@@ -12,13 +12,13 @@
       </tr>
     </thead>
     <tbody>
-      {% for user in rows %}
+      {% for persons in rows %}
         <tr>
-            <td>user.PersonId</td>
-            <td>user.LastName</td>
-            <td>user.FirstName</td>
-            <td>user.Address</td>
-            <td>user.City</td>
+            <td>persons.PersonId</td>
+            <td>persons.LastName</td>
+            <td>persons.FirstName</td>
+            <td>persons.Address</td>
+            <td>persons.City</td>
         </tr>
       {% endfor %}
     </tbody>
