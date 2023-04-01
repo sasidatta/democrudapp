@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <table id="data" class="table table-striped">
+    <thead>
+      <tr>
+        <th>PersonId</th>
+        <th>LastName</th>
+        <th>FirstName</th>
+        <th>Address</th>
+        <th>City</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for user in rows %}
+        <tr>
+            <td>user.PersonId</td>
+            <td>user.LastName</td>
+            <td>user.FirstName</td>
+            <td>user.Address</td>
+            <td>user.City</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}

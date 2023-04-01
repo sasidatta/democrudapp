@@ -54,10 +54,10 @@ def rows_to_json(cols,rows):
 
 
 @app.route('/')
-def hello():
+def index():
     """webserice test method
     """
-    return 'Welcome Mysql Flask Demo'
+    return render_template('index.html')
 
 @app.route('/test')
 def test_get():
@@ -77,14 +77,16 @@ def test_get():
     columns = [desc[0] for desc in cur.description]
     # get all data
     rows=cur.fetchall()
-    render_template('template.html', data=rows)
-
-    # build json 
-    result = rows_to_json(columns,rows)
-    #print(result)
     
     cur.close()
     conn.close()
+
+    render_template('index.html', rows=rows)
+
+    # build json 
+    #result = rows_to_json(columns,rows)
+    #print(result)
+    
 
     return result
 	
