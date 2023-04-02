@@ -1,24 +1,23 @@
 {% extends "base.html" %}
 
 {% block content %}
+
   <table id="data" class="table table-striped">
     <thead>
       <tr>
-        <th>PersonId</th>
-        <th>LastName</th>
-        <th>FirstName</th>
-        <th>Address</th>
-        <th>City</th>
+          {% for header in headers %}
+              <th>{{header}}</th>
+          {% endfor %}
       </tr>
-    </thead>
+  </thead>
     <tbody>
-      {% for persons in rows %}
+      {% for row in rows %}
         <tr>
-            <td>persons.PersonId</td>
-            <td>persons.LastName</td>
-            <td>persons.FirstName</td>
-            <td>persons.Address</td>
-            <td>persons.City</td>
+           <td>{{row['PersonID']}}</td>
+           <td>{{row['LastName']}}</td>
+           <td>{{row['FirstName']}}</td>
+           <td>{{row['Address']}}</td>
+           <td>{{row['City']}}</td>
         </tr>
       {% endfor %}
     </tbody>

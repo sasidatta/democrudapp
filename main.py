@@ -7,6 +7,7 @@ import pymysql
 import json
 import config
 from flask_cors import CORS
+import MySQLdb
 
 app = Flask(__name__)
 
@@ -57,19 +58,14 @@ def rows_to_json(cols,rows):
 def index():
     """webserice test method
     """
-    return render_template('index.html')
-
-@app.route('/test')
-def test_get():
-    """ mysql test webservice '/test'
-    """
     # create mysql connection
-    conn = pymysql.connect(host=config._DB_CONF['host'], 
+    conn = MySQLdb.connect(host=config._DB_CONF['host'], 
                            port=config._DB_CONF['port'], 
                            user=config._DB_CONF['user'], 
                            passwd=config._DB_CONF['passwd'], 
                            db=config._DB_CONF['db'])
-    cur = conn.cursor()
+    
+    cur = conn.cursor (MySQLdb.cursors.DictCursor)
     sql="select * from persons;"
     cur.execute(sql)
     
@@ -81,14 +77,7 @@ def test_get():
     cur.close()
     conn.close()
 
-    render_template('index.html', rows=rows)
-
-    # build json 
-    #result = rows_to_json(columns,rows)
-    #print(result)
-    
-
-    return result
+    return render_template('index.html',headers=columns,rows=rows)
 	
 @app.errorhandler(500)
 def server_error(e):
@@ -101,7 +90,7 @@ def server_error(e):
 if __name__ == '__main__':
     # This is used when running locally. Gunicorn is used to run the
     #app.run(host='0.0.0.0', port=8080, debug=True, processes=4, threaded=True)
-    app.run(threaded=True,debug=True)
+    app.run(port=8080,debug=True)
     #app.run(host='127.0.0.1', port=8080, debug=True)
 ## [END app]
 
