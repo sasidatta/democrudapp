@@ -10,7 +10,7 @@ from flask_cors import CORS
 import MySQLdb
 
 app = Flask(__name__)
-app.secret_key = 'my_super_secret_key'
+app.secret_key = 'i23jeij23eijii32ui23uiui23ui32u32i'
 
 """
 CORS function is to avoid No 'Access-Control-Allow-Origin' error
@@ -94,8 +94,12 @@ def insert():
     cursor.close()
     conn.close()
 
-    # Return a success message
-    return "Data inserted successfully!"
+    # Set a flash message to notify the user that the rows have been deleted
+    flash(f"Data added successfully.", "success")
+
+    # Redirect the user back to the student data page
+    return redirect('/')
+
 
 @app.route('/delete', methods=['POST'])
 def delete():
@@ -120,7 +124,7 @@ def delete():
             conn.commit()
 
             # Set a flash message to notify the user that the rows have been deleted
-            flash(f"{len(rows_to_delete)} row(s) deleted successfully.", "success")
+            flash(" row(s) deleted successfully.", "success")
 
         except Exception as e:
                 print(e)

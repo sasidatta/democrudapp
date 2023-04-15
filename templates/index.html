@@ -2,7 +2,7 @@
 
 {% block content %}
 <div class="new-student">
-  <button id="add-student-btn" class="btn btn-primary">Add New Student</button>
+  <button onclick="location.href = '/form'"  id="add-student-btn" class="btn btn-primary">Add New Student</button>
 </div>
 
 <div class="wrapper">
@@ -29,8 +29,7 @@
       {% endfor %}
     </tbody>
   </table>
-  <button type="button" id="add-student-btn" class="btn btn-primary">Add Student</button>
-  <button type="submit" id="submit-btn" class="btn btn-success">Submit</button>
+  <button type="submit" id="update-student-btn" class="btn btn-primary">Update Student</button>
   <button type="submit" class="btn btn-danger">Delete Selected Rows</button>
 </div>
 {% endblock %}

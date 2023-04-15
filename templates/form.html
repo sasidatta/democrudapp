@@ -2,8 +2,11 @@
 <html>
   <head>
     <title>Insert Data into MySQL Table</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+    <script lang="css" type="text/css" src="../static/css/style.css"></script>
   </head>
   <body>
+    <div>
     <form method="POST" action="/insert">
       <label for="PersonID">Name:</label>
       <input type="number" name="PersonID" required>
@@ -22,5 +25,6 @@
       <br>
       <input type="submit" value="Submit">
     </form>
+   </div>
   </body>
 </html>
