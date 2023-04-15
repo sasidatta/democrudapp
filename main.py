@@ -1,6 +1,6 @@
 import logging
 
-from flask import Flask, request,render_template
+from flask import Flask, request,redirect, flash , render_template
 import datetime
 import decimal
 import pymysql
@@ -15,6 +15,13 @@ app = Flask(__name__)
 CORS function is to avoid No 'Access-Control-Allow-Origin' error
 """
 CORS(app)
+
+# create mysql connection
+conn = MySQLdb.connect(host=config._DB_CONF['host'], 
+                           port=config._DB_CONF['port'], 
+                           user=config._DB_CONF['user'], 
+                           passwd=config._DB_CONF['passwd'], 
+                           db=config._DB_CONF['db'])
 
 def type_handler(x):
     """type Serialization function.
@@ -31,40 +38,10 @@ def type_handler(x):
         return '$%.2f'%(x)
     raise TypeError("Unknown type")
 
-def rows_to_json(cols,rows):
-    """type Serialization function.
-    Args:
-        cols: column descriptions
-        rows: sql query result rows
-
-    Returns:
-        Array of json string with combination of columns and rows
-        [
-          {"column0":row[0], "column1":row[1], "column2":row[2], .......},
-          {"column0":row[0], "column1":row[1], "column2":row[2], .......},
-          {"column0":row[0], "column1":row[1], "column2":row[2], .......},
-          {"column0":row[0], "column1":row[1], "column2":row[2], .......},
-          {"column0":row[0], "column1":row[1], "column2":row[2], .......}
-        ]
-    """
-    result = []
-    for row in rows:
-        data = dict(zip(cols, row))
-        result.append(data)
-    return json.dumps(result, default=type_handler)
-
-
 @app.route('/')
 def index():
     """webserice test method
     """
-    # create mysql connection
-    conn = MySQLdb.connect(host=config._DB_CONF['host'], 
-                           port=config._DB_CONF['port'], 
-                           user=config._DB_CONF['user'], 
-                           passwd=config._DB_CONF['passwd'], 
-                           db=config._DB_CONF['db'])
-    
     cur = conn.cursor (MySQLdb.cursors.DictCursor)
     sql="select * from persons;"
     cur.execute(sql)
@@ -78,7 +55,65 @@ def index():
     conn.close()
 
     return render_template('index.html',headers=columns,rows=rows)
-	
+
+@app.route('/form')
+def form():
+    return render_template('form.html')
+
+# Define the route for handling the form submission
+@app.route('/insert', methods=['POST'])
+def insert():
+    # Get the form data
+    PersonID = request.form['PersonID']
+    LastName = request.form['LastName']
+    FirstName = request.form['FirstName']
+    Address = request.form['Address']
+    City = request.form['City']
+
+
+    # Insert the data into the MySQL table
+    
+    cursor = conn.cursor()
+
+    query = "INSERT INTO Persons (PersonID, LastName, FirstName, Address, City) VALUES (7,'kumar','kishore', 'main street','vijag')"
+
+    cursor.execute(query)
+    conn.commit()
+
+    # Return a success message
+    return "Data inserted successfully!"
+
+@app.route('/delete', methods=['POST'])
+def delete():
+    # Get the list of row IDs to delete
+    rows_to_delete = request.form.getlist('delete[]')
+ 
+    if len(rows_to_delete) > 0:
+        try:
+            # Delete the selected rows from the database
+            cursor = conn.cursor()
+            query = "DELETE FROM Persons WHERE PersonID IN (%s)"
+            placeholders = ', '.join(['%s'] * len(rows_to_delete))
+            query = query % placeholders
+            cursor.execute(query, tuple(rows_to_delete))
+            conn.commit()
+
+            # Set a flash message to notify the user that the rows have been deleted
+            #flash(f"{len(rows_to_delete)} row(s) deleted successfully.", "success")
+
+        except Exception as e:
+                print(e)
+                #flash("An error occurred while deleting the data")
+        
+        finally:
+                cursor.close()
+                conn.close()
+
+    # Redirect the user back to the student data page
+    return redirect('/')
+
+
+
 @app.errorhandler(500)
 def server_error(e):
     logging.exception('An error occurred during a request.')
