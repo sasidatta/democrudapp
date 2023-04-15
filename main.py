@@ -10,18 +10,12 @@ from flask_cors import CORS
 import MySQLdb
 
 app = Flask(__name__)
+app.secret_key = 'my_super_secret_key'
 
 """
 CORS function is to avoid No 'Access-Control-Allow-Origin' error
 """
 CORS(app)
-
-# create mysql connection
-conn = MySQLdb.connect(host=config._DB_CONF['host'], 
-                           port=config._DB_CONF['port'], 
-                           user=config._DB_CONF['user'], 
-                           passwd=config._DB_CONF['passwd'], 
-                           db=config._DB_CONF['db'])
 
 def type_handler(x):
     """type Serialization function.
@@ -42,6 +36,14 @@ def type_handler(x):
 def index():
     """webserice test method
     """
+
+    # create mysql connection
+    conn = MySQLdb.connect(host=config._DB_CONF['host'], 
+                           port=config._DB_CONF['port'], 
+                           user=config._DB_CONF['user'], 
+                           passwd=config._DB_CONF['passwd'], 
+                           db=config._DB_CONF['db'])
+
     cur = conn.cursor (MySQLdb.cursors.DictCursor)
     sql="select * from persons;"
     cur.execute(sql)
@@ -70,15 +72,27 @@ def insert():
     Address = request.form['Address']
     City = request.form['City']
 
+     
+    # create mysql connection
+    conn = MySQLdb.connect(host=config._DB_CONF['host'], 
+                           port=config._DB_CONF['port'], 
+                           user=config._DB_CONF['user'], 
+                           passwd=config._DB_CONF['passwd'], 
+                           db=config._DB_CONF['db'])
 
     # Insert the data into the MySQL table
     
     cursor = conn.cursor()
 
-    query = "INSERT INTO Persons (PersonID, LastName, FirstName, Address, City) VALUES (7,'kumar','kishore', 'main street','vijag')"
+    query = "INSERT INTO Persons (PersonID, LastName, FirstName, Address, City) VALUES (%s, %s, %s, %s, %s)"
+    
+    values = (PersonID, LastName, FirstName, Address, City)
 
-    cursor.execute(query)
+    cursor.execute(query,values)
     conn.commit()
+
+    cursor.close()
+    conn.close()
 
     # Return a success message
     return "Data inserted successfully!"
@@ -91,6 +105,13 @@ def delete():
     if len(rows_to_delete) > 0:
         try:
             # Delete the selected rows from the database
+                # create mysql connection
+            conn = MySQLdb.connect(host=config._DB_CONF['host'], 
+                           port=config._DB_CONF['port'], 
+                           user=config._DB_CONF['user'], 
+                           passwd=config._DB_CONF['passwd'], 
+                           db=config._DB_CONF['db'])
+
             cursor = conn.cursor()
             query = "DELETE FROM Persons WHERE PersonID IN (%s)"
             placeholders = ', '.join(['%s'] * len(rows_to_delete))
@@ -99,11 +120,11 @@ def delete():
             conn.commit()
 
             # Set a flash message to notify the user that the rows have been deleted
-            #flash(f"{len(rows_to_delete)} row(s) deleted successfully.", "success")
+            flash(f"{len(rows_to_delete)} row(s) deleted successfully.", "success")
 
         except Exception as e:
                 print(e)
-                #flash("An error occurred while deleting the data")
+                flash("An error occurred while deleting the data")
         
         finally:
                 cursor.close()
