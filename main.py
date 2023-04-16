@@ -7,15 +7,26 @@ import pymysql
 import json
 import config
 from flask_cors import CORS
-import MySQLdb
+import mysql.connector
 
 app = Flask(__name__)
-app.secret_key = 'i23jeij23eijii32ui23uiui23ui32u32i'
+app.secret_key = '12345'
 
 """
 CORS function is to avoid No 'Access-Control-Allow-Origin' error
 """
 CORS(app)
+
+app = Flask(__name__)
+app.secret_key = '12345'
+
+# create mysql connection
+db = mysql.connector.connect(host=config._DB_CONF['host'], 
+                           port=config._DB_CONF['port'], 
+                           user=config._DB_CONF['user'], 
+                           passwd=config._DB_CONF['passwd'], 
+                           db=config._DB_CONF['db'])
+
 
 def type_handler(x):
     """type Serialization function.
@@ -36,34 +47,18 @@ def type_handler(x):
 def index():
     """webserice test method
     """
+    with db.cursor() as cursor:
+        cursor.execute("SELECT * FROM persons")
+        persons = cursor.fetchall()
 
-    # create mysql connection
-    conn = MySQLdb.connect(host=config._DB_CONF['host'], 
-                           port=config._DB_CONF['port'], 
-                           user=config._DB_CONF['user'], 
-                           passwd=config._DB_CONF['passwd'], 
-                           db=config._DB_CONF['db'])
-
-    cur = conn.cursor (MySQLdb.cursors.DictCursor)
-    sql="select * from persons;"
-    cur.execute(sql)
-    
-    # get all column names
-    columns = [desc[0] for desc in cur.description]
-    # get all data
-    rows=cur.fetchall()
-    
-    cur.close()
-    conn.close()
-
-    return render_template('index.html',headers=columns,rows=rows)
+    return render_template('index.html',persons=persons)
 
 @app.route('/form')
 def form():
     return render_template('form.html')
 
 # Define the route for handling the form submission
-@app.route('/insert', methods=['POST'])
+@app.route('/add', methods=['POST'])
 def insert():
     # Get the form data
     PersonID = request.form['PersonID']
@@ -73,26 +68,15 @@ def insert():
     City = request.form['City']
 
      
-    # create mysql connection
-    conn = MySQLdb.connect(host=config._DB_CONF['host'], 
-                           port=config._DB_CONF['port'], 
-                           user=config._DB_CONF['user'], 
-                           passwd=config._DB_CONF['passwd'], 
-                           db=config._DB_CONF['db'])
-
-    # Insert the data into the MySQL table
+    with db.cursor() as cursor:
     
-    cursor = conn.cursor()
-
-    query = "INSERT INTO Persons (PersonID, LastName, FirstName, Address, City) VALUES (%s, %s, %s, %s, %s)"
+       query = "INSERT INTO Persons (PersonID, LastName, FirstName, Address, City) VALUES (%s, %s, %s, %s, %s)"
     
-    values = (PersonID, LastName, FirstName, Address, City)
+       values = (PersonID, LastName, FirstName, Address, City)
 
-    cursor.execute(query,values)
-    conn.commit()
+       cursor.execute(query,values)
+       db.commit()
 
-    cursor.close()
-    conn.close()
 
     # Set a flash message to notify the user that the rows have been deleted
     flash(f"Data added successfully.", "success")
@@ -101,42 +85,36 @@ def insert():
     return redirect('/')
 
 
-@app.route('/delete', methods=['POST'])
-def delete():
-    # Get the list of row IDs to delete
-    rows_to_delete = request.form.getlist('delete[]')
- 
-    if len(rows_to_delete) > 0:
-        try:
-            # Delete the selected rows from the database
-                # create mysql connection
-            conn = MySQLdb.connect(host=config._DB_CONF['host'], 
-                           port=config._DB_CONF['port'], 
-                           user=config._DB_CONF['user'], 
-                           passwd=config._DB_CONF['passwd'], 
-                           db=config._DB_CONF['db'])
-
-            cursor = conn.cursor()
-            query = "DELETE FROM Persons WHERE PersonID IN (%s)"
-            placeholders = ', '.join(['%s'] * len(rows_to_delete))
-            query = query % placeholders
-            cursor.execute(query, tuple(rows_to_delete))
-            conn.commit()
-
-            # Set a flash message to notify the user that the rows have been deleted
-            flash(" row(s) deleted successfully.", "success")
-
-        except Exception as e:
-                print(e)
-                flash("An error occurred while deleting the data")
-        
-        finally:
-                cursor.close()
-                conn.close()
+@app.route('/update', methods=['POST'])
+def update():
+    # Get the form data
+    person_id = request.form['person-id']
+    last_name = request.form['last-name']
+    first_name = request.form['first-name']
+    address = request.form['address']
+    city = request.form['city']
+    
+    with db.cursor() as cursor:
+       cursor.execute('UPDATE persons SET lastname=%s, firstname=%s, address=%s, city=%s WHERE personid=%s', 
+              (last_name, first_name, address, city, person_id))
+       db.commit()
 
     # Redirect the user back to the student data page
     return redirect('/')
 
+# Define the route to handle the deletion of a person
+@app.route('/delete/<int:person_id>')
+def delete_person(person_id):
+
+    with db.cursor() as cursor:
+       # Execute the DELETE query to remove the person from the database
+       cursor.execute('DELETE FROM persons WHERE personid=%s', (person_id,))
+       
+       # Commit the changes to the database
+       db.commit()
+
+    # Redirect the user back to the student data page
+    return redirect('/')
 
 
 @app.errorhandler(500)
