@@ -61,7 +61,7 @@ def form():
 @app.route('/add', methods=['POST'])
 def insert():
     # Get the form data
-    PersonID = request.form['PersonID']
+    PersonID = int(request.form['PersonID'])
     LastName = request.form['LastName']
     FirstName = request.form['FirstName']
     Address = request.form['Address']
@@ -70,7 +70,7 @@ def insert():
      
     with db.cursor() as cursor:
     
-       query = "INSERT INTO Persons (PersonID, LastName, FirstName, Address, City) VALUES (%s, %s, %s, %s, %s)"
+       query = "INSERT INTO Persons (personid, LastName, FirstName, Address, City) VALUES (%s, %s, %s, %s, %s)"
     
        values = (PersonID, LastName, FirstName, Address, City)
 
