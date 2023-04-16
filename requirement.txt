@@ -3,3 +3,4 @@ pymysql
 Flask
 flask-cors
 gunicorn==19.7.1
+mysqlclient
