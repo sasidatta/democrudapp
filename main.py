@@ -3,8 +3,6 @@ import logging
 from flask import Flask, request,redirect, flash , render_template
 import datetime
 import decimal
-import pymysql
-import json
 import config
 from flask_cors import CORS
 import mysql.connector
