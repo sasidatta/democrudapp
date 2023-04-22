@@ -68,7 +68,7 @@ def insert():
      
     with db.cursor() as cursor:
     
-       query = "INSERT INTO Persons (personid, LastName, FirstName, Address, City) VALUES (%s, %s, %s, %s, %s)"
+       query = "INSERT INTO persons (personid, LastName, FirstName, Address, City) VALUES (%s, %s, %s, %s, %s)"
     
        values = (PersonID, LastName, FirstName, Address, City)
 
