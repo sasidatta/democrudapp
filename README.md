@@ -68,3 +68,5 @@ CORS function is to avoid No 'Access-Control-Allow-Origin' error
 CORS(app)
 ```
 
+sudo apt-get install libmysqlclient-dev
+sudo apt install python3-pip
