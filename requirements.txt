@@ -1,5 +1,5 @@
 simplejson
 Flask
 flask-cors
-gunicorn==19.7.1
+gunicorn
 mysql-connector-python
