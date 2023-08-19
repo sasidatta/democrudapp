@@ -3,10 +3,10 @@
 '''
 
 _DB_CONF = {
- 'host':'192.168.64.1',
+ 'host':'192.168.64.2',
  'port':3306,
  'user':'lalitha',
- 'passwd':'Lalli@2407',
+ 'passwd':'Lalitha@123',
  'db':'student'
 }
 
