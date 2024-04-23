@@ -15,8 +15,8 @@
         <tr>
            <td>{{ person[0] }}</td>
            <td>{{ person[1] }}</td>
-           <td>{{ person[3] }}</td>
            <td>{{ person[2] }}</td>
+           <td>{{ person[3] }}</td>
            <td>{{ person[4] }}</td>
            <td><button onclick="editPerson({{ person[0] }},'{{ person[1] }}','{{ person[2] }}','{{ person[3] }}','{{ person[4] }}')" class="btn btn-primary">Edit</button></td>
            <td><button onclick="if(confirm('Are you sure you want to delete this person?')){location.href = '/delete/{{ person[0] }}'}" class="btn btn-danger">Delete</button></td>
