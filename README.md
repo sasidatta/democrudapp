@@ -74,13 +74,32 @@ sudo apt install python3-pip
 
 --------------------------------------------------
 DemoCrudApp:
+
+Steps performed:
+
 Download python3, pip3, gunicode and mysql-server
 
-MYSQL:
+Update packages:
+```
+sudo apt-get update
+```
+Install Pyhton3 and PIP3:
+```
+sudo apt-get install python3 python3-pip
+```
+Verify installation:
+```
+python3 --version
+pip3 --version
+```
 
-username: satya
-password: Shiva@1192
-(steps to create a username and password are given below)
+### Install required python packages
+
+```
+   $ pip install -r requirements.txt
+```
+
+MYSQL:
 
 MYSQL version: 8.0.36
 
@@ -157,6 +176,9 @@ Restart SQL:
 ```
 sudo systemctl start MySQL
 ```
+Credentials of new user:
+username: satya
+password: Shiva@1192
 
 Login:
 ```
@@ -198,11 +220,29 @@ Make sure port 3306 is open in security groups.
 ```
 Exit;
 ```
+### Config and start webservice
+
+##### Configure MySQL settings
+
+In ``config.py`` file, fill in your real MySQL connection settings
+
+```
+_DB_CONF = {
+ 'host':'localhost',
+ 'port':3306,
+ 'user':'satya',
+ 'passwd':'Shiva@1192',
+ 'db':'student'
+}
+```
+
+We are placing the host as "localhost" as the application and MySql database is hosted on Ubuntu EC2.
 
 Start web service:
 ```
 gunicorn -b :8080 main:app
 ```
+Make sure you run this line in the directory that has main.py file.
 
 Open the URL in the browser:
 ```
