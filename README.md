@@ -85,7 +85,9 @@ password: Shiva@1192
 MYSQL version: 8.0.36
 
 Installation of MYSQL-Server in EC2 Ubuntu:
+```
 sudo apt install mysql-server
+```
 
 Version:
 mysqld --version
