@@ -1,9 +1,9 @@
 '''
-  This is the config file which includes all ccnfiguation info here
+  This is the config file which includes all configuration info here
 '''
 
 _DB_CONF = {
- 'host':'192.168.64.2',
+ 'host':'localhost',
  'port':3306,
  'user':'lalitha',
  'passwd':'Lalitha@123',
