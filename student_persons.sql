@@ -37,7 +37,7 @@ CREATE TABLE `persons` (
 
 LOCK TABLES `persons` WRITE;
 /*!40000 ALTER TABLE `persons` DISABLE KEYS */;
-INSERT INTO `persons` VALUES (1,'lalitha','kumari','autonagar','vijayawada'),(3,'rahul','datta','muralinagar','usa'),(3,'rahul','datta','muralinagar','usa'),(3,'sasi','datta','muralinagar','banglore'),(7,'kumar','kishore','main street','vijag'),(7,'kumar','kishore','main street','vijag'),(7,'kumar','kishore','main street','vijag');
+INSERT INTO `persons` VALUES (1,'Satya,'Mounika','Tirumala Nagar','Hyderabad'),(2,'Sasi','Datta','Muralinagar','Bengaluru'),(3,'Pooja','D','Austin','USA'),(4,'Sai','Keerthi','HBColony','Hyderabad'),(5,'Pranavi','VS','Old Bowenpally','Secundrabad');
 /*!40000 ALTER TABLE `persons` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
