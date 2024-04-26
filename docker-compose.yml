@@ -1,0 +1,37 @@
+# Trying to create three "my-flask-app" containers with the "my-flask-app image". The container port will be the same i.e. 8099, but the host port will be assigned to 8088,8090 and 8099.
+
+version: '3.8'
+
+services:
+  flask_app1:
+    image: my-flask-app
+    ports:
+      - "8099:8099"
+    environment:
+      DB_HOST: student.chbcdne9jh1l.ap-south-1.rds.amazonaws.com
+      DB_USER: admin
+      DB_PASSWORD: Tosvert123#
+      DB_NAME: student
+    restart: unless-stopped
+
+  flask_app2:
+    image: my-flask-app
+    ports:
+      - "8088:8099"
+    environment:
+      DB_HOST: student.chbcdne9jh1l.ap-south-1.rds.amazonaws.com
+      DB_USER: admin
+      DB_PASSWORD: Tosvert123#
+      DB_NAME: student
+    restart: unless-stopped
+
+  flask_app3:
+    image: my-flask-app
+    ports:
+      - "8090:8099"
+    environment:
+      DB_HOST: student.chbcdne9jh1l.ap-south-1.rds.amazonaws.com
+      DB_USER: admin
+      DB_PASSWORD: Tosvert123#
+      DB_NAME: student
+    restart: unless-stopped
