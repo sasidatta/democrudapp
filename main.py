@@ -7,8 +7,14 @@ import config
 from flask_cors import CORS
 import mysql.connector
 
+import logging
+
 app = Flask(__name__)
 app.secret_key = '12345'
+
+# Set up logging
+logging.basicConfig(filename='app.log', level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+
 
 """
 CORS function is to avoid No 'Access-Control-Allow-Origin' error
@@ -45,6 +51,9 @@ def type_handler(x):
 def index():
     """webserice test method
     """
+    # Log the incoming request details
+    logging.info(f"Incoming request to endpoint: {request.url}, from Docker port: {request.host.split(':')[1]}")
+
     with db.cursor() as cursor:
         cursor.execute("SELECT * FROM persons")
         persons = cursor.fetchall()
@@ -126,7 +135,7 @@ def server_error(e):
 if __name__ == '__main__':
     # This is used when running locally. Gunicorn is used to run the
     #app.run(host='0.0.0.0', port=8080, debug=True, processes=4, threaded=True)
-    app.run(host='0.0.0.0',port=8099,debug=True)
+    app.run(host='0.0.0.0',port=8099,debug=False)
     #app.run(host='127.0.0.1', port=8080, debug=True)
 ## [END app]
 
