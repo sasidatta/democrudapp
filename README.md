@@ -23,7 +23,7 @@ pip3 --version
 ### Install required python packages
 
 ```
-   $ pip install -r requirements.txt
+pip install -r requirements.txt
 ```
 
 MYSQL:
@@ -147,9 +147,9 @@ Make sure port 3306 is open in security groups.
 ```
 Exit;
 ```
-### Config and start webservice
+Config and start webservice
 
-##### Configure MySQL settings
+Configure MySQL settings
 
 In ``config.py`` file, fill in your real MySQL connection settings
 
@@ -174,13 +174,13 @@ Make sure you run this line in the directory that has main.py file.
 Test your webservice using curl
 
 ```
-   curl http://localhost:8080/test
+curl http://localhost:8080/test
 ```
 
 You can also test your webservice remotely
 
 ```
-   curl http://<SERVER-IP>:8080/test
+curl http://<SERVER-IP>:8080/test
 ```
 
 If you have trouble with 'Access-Control-Allow-Origin' error when making cross-origin ajax call,  add the following
