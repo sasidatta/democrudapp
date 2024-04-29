@@ -18,7 +18,7 @@ spec:
       - name: flask-app
         image: 819821926402.dkr.ecr.ap-south-1.amazonaws.com/my-flask-app-repo:latest
         ports:
-        - containerPort: 5000
+        - containerPort: 8099
         env:
         - name: DB_HOST
           value: "student.chbcdne9jh1l.ap-south-1.rds.amazonaws.com"
