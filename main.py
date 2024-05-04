@@ -1,5 +1,3 @@
-import logging
-
 from flask import Flask, request,redirect, flash , render_template
 import datetime
 import decimal
@@ -7,13 +5,8 @@ import config
 from flask_cors import CORS
 import mysql.connector
 
-import logging
-
 app = Flask(__name__)
 app.secret_key = '12345'
-
-# Set up logging
-logging.basicConfig(filename='app.log', level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
 
 """
@@ -51,8 +44,6 @@ def type_handler(x):
 def index():
     """webserice test method
     """
-    # Log the incoming request details
-    logging.info(f"Incoming request to endpoint: {request.url}, from Docker port: {request.host.split(':')[1]}")
 
     with db.cursor() as cursor:
         cursor.execute("SELECT * FROM persons")
@@ -126,7 +117,6 @@ def delete_person(person_id):
 
 @app.errorhandler(500)
 def server_error(e):
-    logging.exception('An error occurred during a request.')
     return """
     An internal error occurred: <pre>{}</pre>
     See logs for full stacktrace.
