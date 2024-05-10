@@ -5,7 +5,7 @@
 import os
 
 _DB_CONF = {
- 'host': os.getenv('DB_HOST', 'student.chbcdne9jh1l.ap-south-1.rds.amazonaws.com'),
+ 'host': os.getenv('DB_HOST', 'mysql'),
  'port': int(os.getenv('DB_PORT', 3306)),
  'user': os.getenv('DB_USER', 'admin'),
  'passwd': os.getenv('DB_PASSWORD', 'Tosvert123#'),
