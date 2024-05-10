@@ -5,7 +5,7 @@
 import os
 
 _DB_CONF = {
- 'host': os.getenv('DB_HOST', 'localhost'),
+ 'host': os.getenv('DB_HOST', 'mysql'),
  'port': int(os.getenv('DB_PORT', 3306)),
  'user': os.getenv('DB_USER', 'admin'),
  'passwd': os.getenv('DB_PASSWORD', 'Tosvert123#'),
