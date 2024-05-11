@@ -21,7 +21,7 @@ spec:
         - containerPort: 8099
         env:
         - name: DB_HOST
-          value: "student.chbcdne9jh1l.ap-south-1.rds.amazonaws.com"
+          value: "mysql"
         - name: DB_USERNAME
           valueFrom:
             secretKeyRef:
