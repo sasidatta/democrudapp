@@ -429,4 +429,4 @@ docker push 819821926402.dkr.ecr.ap-south-1.amazonaws.com/my-flask-app-repo:late
 ![image](https://github.com/satyamounika11/democrudapp/assets/37068004/5cb1e018-065b-486b-a4ee-8fafddc517ee)
 
 
-
+## we need to add instructions for MAC
